@@ -1,0 +1,44 @@
+"Wenn ihr mit der Maus über Name, Datum, Angemessenheit oder Schwierigkeit geht, wird eine Erklärung sichtbar ;)",,,,,
+Name,Datum,Zeitaufwand in Stunden,Angemessenheit,Schwierigkeit,Was?
+Alle\Nick,05.12.2013,1,3,3,Treffen-01 (Risikoanalyse)
+Alle,10.12.2013,2,3,3,Treffen-02 (Risikoanalyse/Website)
+Felix,11.12.2013,1,3,3,Risikoanalyse (Ausformulierung)
+Felix,12.12.2013,2,3,3,Risikoanalyse (Ausformulierung)
+Lukas,12.12.2013,2,2,3,Erstellen der Website
+Elvira,13.12.2013,"0,5",3,2,Risikoanalyse (Korrekturlesen)
+Siggi,13.12.2013,1,3,3,Risikoanalyse (Ausformulierung)
+Siggi,13.12.2013,2,3,3,Risikoanalyse (Dokumenterstellung)
+Elvira ,15.12.2013,1,3,3,Vorbereitung auf Treffen 3
+Lukas,15.12.2013,"0,5",3,3,Korrekturlesen (Risikoanalyse)
+Nico,15.12.2013,"0,75",3,3,Korrekturlesen (Risikoanalyse)
+Siggi,15.12.2013,4,3,3,Risikoanalyse (Dokumenterstellung)
+Christoph,16.12.2013,"1,5",3,3," mit Gruppenressourcen verbinden, Website Aufsetzen"
+Felix,16.12.2013,1,3,3,Vorbereitung auf Treffen 3
+Lukas,16.12.2013,"0,25",3,5,Hochladen der Risikoanalyse
+Nick,16.12.2013,"1,5",3,3,Vorbereitung auf Treffen 3
+Nico,16.12.2013,"0,75",3,4,Vorbereitung auf Treffen 3
+"Alle\Christoph
+",17.12.2013,2,3,3,Treffen-03 (Recherchebericht)
+Christoph,17.12.2013,1,3,3,Literaturrecherche
+Elvira,19.12.2013,1,3,3,"Recherche (SPARQL, RDF)"
+Felix,22.12.2013,1,3,3,Literaturrecherche
+Elvira,28.12.2013,1,3,3,"Recherche (SPARQL, RDF)"
+Felix,28.12.2013,1,3,3,Literaturrecherche
+Nick,28.12.2013,1,3,3,"Recherche (SPARQL, RDF, ...)"
+Nico,28.12.2013,1,3,3,"Recherche RDF, SPARQL,..."
+Siggi,30.12.2013,1,3,3,"Recherche (SPARQL, RDF)"
+Alle\Nick,02.01.2014,"1,25",3,3,"Treffen-04 (ohne Betreuer, Recherchebericht)"
+Lukas,02.01.2014,"0,5",3,3,"Rundmail, Vorbereitung Treffen 4"
+Nico,02.01.2014,1,3,3,Recherche SPARQL-Anfragen
+Siggi,02.01.2014,1,3,3,Literaturrecherche
+Elvira,03.01.2014,1,3,3,Recherche (Webapplikationen)
+Nico,03.01.2014,2,3,3,Recherchebericht Begriffe 1/2
+Christoph,04.01.2014,2,3,3,Recherchebericht Aspekte
+Elvira,04.01.2014,2,3,3,Recherchebericht Konzepte
+Felix,04.01.2014,"0,25",3,4,Korrekturlesen (Recherchebericht)
+Felix,04.01.2014,2,3,3,Recherchebericht Konzepte
+Lukas,04.01.2014,"1,75",4,3,Recherchebericht Aspekte
+Siggi,04.01.2014,2,3,3,Recherchebericht (Ausformulierung)
+Nick,05.01.2014,"1,5",3,3,Korrekturlesen (Recherchebericht)
+Lukas,05.01.2014,"0,25",4,4,Korrekturlesen (Recherchebericht)
+Siggi,05.01.2014,3,3,3,Recherchebericht (Dokumenterstellung)
