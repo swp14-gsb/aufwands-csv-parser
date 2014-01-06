@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<!-- Das Wurzelelement -->
+  <xs:element name="Analyse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="done" type="DoneType" maxOccurs="unbounded"/>
+      </xs:sequence>
+<!-- generelle Attribute, welche Daten ueber Gueltigkeit und
+Verantwortlichkeit fuer das vorliegende Dokument beschreiben --> 
+      <xs:attribute name="von" type="xs:date" use="required"/>
+      <xs:attribute name="bis" type="xs:date" use="required"/>
+      <xs:attribute name="gruppe" type="Gruppe" use="required"/>
+<!-- Aufwandserfassung fuer welchen Zeitraum und welche Gruppe -->
+      <xs:attribute name="createdBy" type="Name" use="required"/>
+      <xs:attribute name="createdAt" type="xs:date" use="required"/>
+<!-- von wem und wann wurde dieses Dokument erstellt  -->
+
+    </xs:complexType>
+  </xs:element>
+
+<!-- Typ eines Eintrags -->
+  <xs:complexType name="DoneType">
+    <xs:simpleContent>
+      <xs:extension base="xs:token">
+	<xs:attribute name="who" type="NameList" use="required"/>
+<!-- wer: kommaseparierte Liste der Namenskuerzel oder Eintrag 'alle' -->
+	<xs:attribute name="A" type="Wertung" use="required"/>
+	<xs:attribute name="S" type="Wertung" use="required"/>
+<!-- jeweils Wert aus der Skala 1 .. 5 (1 = viel zu hoch, 2 = zu hoch, 3 =
+  angemessen, 4 = zu niedrig, 5 = viel zu niedrig)  --> 
+	<xs:attribute name="Zeit" type="xs:float" use="required"/>
+<!-- Zeit in Stunden als float-Wert -->
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:simpleType name="Name">
+    <xs:restriction base="xs:token">
+      <xs:pattern value="\w+"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="NameList">
+    <xs:restriction base="xs:token">
+      <xs:pattern value="\w+(,\s*\w+)*"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="Gruppe">
+    <xs:restriction base="xs:token">
+      <xs:pattern value="swp\d+-\w+"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="Wertung">
+    <xs:restriction base="xs:unsignedByte">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="5"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+<!--  XSchema $Id: Aufwand.xsd,v 2.2 2009/05/20 10:44:23 graebe Exp $  
+
+ChangeLog (revers chronologisch):
+
+2009-04-21 graebe: Pattern fuer Gruppenname angepasst
+2004-04-28 graebe: Gruppenname auch in Groszbuchstaben erlaubt
+2004-04-06 graebe: Schema freigegeben
+2004-04-06 graebe: Kommentare ergaenzt
+2004-04-05 graebe: Aufwand.xml als valides Beispiel erzeugt 
+2004-04-05 graebe: attribut 'who' als NameList spezifiziert
+2004-03-24 graebe: Schema angelegt
+
+-->
+
+</xs:schema>
