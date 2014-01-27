@@ -1,7 +1,6 @@
 <?php
 $valid = true;
 
-$filename = 'xml/aufwand-' . time() . '.xml';
 require_once 'functions.php';
 require_once 'SimpleXMLExtended.php';
 
@@ -29,6 +28,7 @@ $createdAt = ($_POST['createdAt'] == '') ? time() : parseGermanDate($_POST['crea
 $gruppe = $_POST['gruppe'];
 $gruppe = ($gsb) ? 'swp14-gsb' : $gruppe;
 $row = 0;
+$filename = 'xml/aufwand_' . $gruppe . '_' . date('m-d', $von) . '-' . date('m-d', $bis) . '_' . time() . '.xml';
 
 ?>
 <!DOCTYPE html>
@@ -241,7 +241,7 @@ Status:
 </pre>
             <?php
             if ($valid) {
-                echo '<a href="' . $filename . '" target="_blank" download="AufwandsXML" title="AufwandsXML">AufwandsXML downloaden</a>';
+                echo '<a href="' . $filename . '" target="_blank"title="AufwandsXML">AufwandsXML downloaden</a>';
             }
             ?>
         </div>
