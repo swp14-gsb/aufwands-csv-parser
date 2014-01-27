@@ -1,9 +1,11 @@
 <?php
-$valid = true;
 
 require_once 'functions.php';
 require_once 'SimpleXMLExtended.php';
 
+$valid = true;
+$gsb = false;
+$group = '';
 if (isset($_POST['gsb'])) {
     $gsb = true;
 }
@@ -20,12 +22,12 @@ $names = Array(
 
 asort($names);
 
-$von = parseGermanDate($_POST['von'], 'der Variable "von"');
-$bis = parseGermanDate($_POST['bis'], 'der Variable "bis"');
-$createdBy = $_POST['createdBy'];
+$von = (isset($_POST['von']) && $_POST['von'] != '') ? parseGermanDate($_POST['von'], 'der Variable "von"') : '';
+$bis = (isset($_POST['bis']) && $_POST['bis'] != '') ? parseGermanDate($_POST['bis'], 'der Variable "bis"') : '';
+$createdBy = (isset($_POST['createdBy'])) ? $_POST['createdBy'] : '';
 $createdBy = ($gsb) ? 'LE' : $createdBy;
-$createdAt = ($_POST['createdAt'] == '') ? time() : parseGermanDate($_POST['createdAt']);
-$gruppe = $_POST['gruppe'];
+$createdAt = (isset($_POST['createdAt']) && $_POST['createdAt'] != '') ? parseGermanDate($_POST['createdAt']) : time();
+$gruppe = (isset($_POST['gruppe'])) ? $_POST['gruppe'] : '';
 $gruppe = ($gsb) ? 'swp14-gsb' : $gruppe;
 $row = 0;
 $filename = 'xml/aufwand_' . $gruppe . '_' . date('m-d', $von) . '-' . date('m-d', $bis) . '_' . time() . '.xml';
@@ -118,7 +120,7 @@ $filename = 'xml/aufwand_' . $gruppe . '_' . date('m-d', $von) . '-' . date('m-d
                     <label for="gsb">Bericht für swp14-gsb?&nbsp;</label>
                 </div>
                 <div class="form-group">
-                    <input type="checkbox" id="gsb" name="gsb" <?php echo ($gsb)?'checked':''; ?>>
+                    <input type="checkbox" id="gsb" name="gsb" <?php echo ($gsb) ? 'checked' : ''; ?>>
                 </div>
                 <div class="clearfix"></div>
 
@@ -126,7 +128,9 @@ $filename = 'xml/aufwand_' . $gruppe . '_' . date('m-d', $von) . '-' . date('m-d
                     <label for="gruppe">Bericht von&nbsp;</label>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="gruppe" name="gruppe" placeholder="Gruppe" <?php echo ($gsb)?'disabled':''; ?> value="<?php echo ($gsb)?'':$group; ?>">
+                    <input type="text" class="form-control" id="gruppe" name="gruppe"
+                           placeholder="Gruppe" <?php echo ($gsb) ? 'disabled' : ''; ?>
+                           value="<?php echo ($gsb) ? '' : $gruppe; ?>">
                 </div>
                 <div class="form-group">
                     <label for="createdAt">&nbsp;erstellt am&nbsp;</label>
@@ -134,7 +138,7 @@ $filename = 'xml/aufwand_' . $gruppe . '_' . date('m-d', $von) . '-' . date('m-d
                 <div class="form-group">
                     <div class="input-append date">
                         <input type="text" name="createdAt" id="createdAt" class="form-control"
-                               value="<?php echo date('d.m.Y',$createdAt); ?>"><span class="add-on"></span>
+                               value="<?php echo date('d.m.Y', $createdAt); ?>"><span class="add-on"></span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -142,7 +146,8 @@ $filename = 'xml/aufwand_' . $gruppe . '_' . date('m-d', $von) . '-' . date('m-d
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" id="createdBy" name="createdBy"
-                           placeholder="Verantwortlicher" <?php echo ($gsb)?'disabled':''; ?>  value="<?php echo ($gsb)?'':$createdBy; ?>">
+                           placeholder="Verantwortlicher" <?php echo ($gsb) ? 'disabled' : ''; ?>
+                           value="<?php echo ($gsb) ? '' : $createdBy; ?>">
                 </div>
                 <div class="clearfix"></div>
                 <div class="form-group">
@@ -150,7 +155,8 @@ $filename = 'xml/aufwand_' . $gruppe . '_' . date('m-d', $von) . '-' . date('m-d
                 </div>
                 <div class="form-group">
                     <div class="input-append date">
-                        <input type="text" name="von" id="von" class="form-control" placeholder="Startdatum" value="<?php echo ($von>0)?date('d.m.Y',$von):''; ?>"><span
+                        <input type="text" name="von" id="von" class="form-control" placeholder="Startdatum"
+                               value="<?php echo ($von > 0) ? date('d.m.Y', $von) : ''; ?>"><span
                             class="add-on"></span>
                     </div>
                 </div>
@@ -159,7 +165,8 @@ $filename = 'xml/aufwand_' . $gruppe . '_' . date('m-d', $von) . '-' . date('m-d
                 </div>
                 <div class="form-group">
                     <div class="input-append date">
-                        <input type="text" name="bis" id="bis" class="form-control" placeholder="Enddatum" value="<?php echo ($bis>0)?date('d.m.Y',$bis):''; ?>"><span
+                        <input type="text" name="bis" id="bis" class="form-control" placeholder="Enddatum"
+                               value="<?php echo ($bis > 0) ? date('d.m.Y', $bis) : ''; ?>"><span
                             class="add-on"></span>
                     </div>
                 </div>
@@ -182,59 +189,63 @@ Status:
 
         //if there was an error uploading the file
         if ($_FILES["file"]["error"] > 0) {
-            echo "Return Code: " . $_FILES["file"]["error"] . "<br />";
-        }
-        if ($von > $bis) {
-            echo 'Wie soll das Startdatum nach dem Enddatum liegen?';
+            echo "Error uploading File: Return Code: " . $_FILES["file"]["error"] . "<br />";
+            $valid = false;
         } else {
+            if ($von > $bis) {
+                echo 'Wie soll das Startdatum nach dem Enddatum liegen?';
+                $valid = false;
+            } else {
                 $xml = new SimpleXMLExtended("<Analyse></Analyse>");
 
-            $xml->addAttribute('von', date('Y-m-d', $von));
-            $xml->addAttribute('bis', date('Y-m-d', $bis));
-            $xml->addAttribute('createdBy', $createdBy);
-            $xml->addAttribute('createdAt', date('Y-m-d', $createdAt));
-            $xml->addAttribute('gruppe', $gruppe);
+                $xml->addAttribute('von', date('Y-m-d', $von));
+                $xml->addAttribute('bis', date('Y-m-d', $bis));
+                $xml->addAttribute('createdBy', $createdBy);
+                $xml->addAttribute('createdAt', date('Y-m-d', $createdAt));
+                $xml->addAttribute('gruppe', $gruppe);
 
-            if (($handle = fopen($_FILES["file"]["tmp_name"], "r")) !== FALSE) {
-                while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-                    if ($row > 1) {
-                        $date = parseGermanDate($data[1], $row);
-                        if ($date >= $von && $date <= $bis) {
-                            $data[0] = parseName($data[0]);
-                            $data[2] = parseTime($data[2]);
-                            $valid = $valid && checkData($data, $row);
+                if (($handle = fopen($_FILES["file"]["tmp_name"], "r")) !== FALSE) {
+                    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                        if ($row > 1) {
+                            $date = parseGermanDate($data[1], $row);
+                            if ($date >= $von && $date <= $bis) {
+                                $data[0] = parseName($data[0]);
+                                $data[2] = parseTime($data[2]);
+                                $valid = $valid && checkData($data, $row);
                                 $done = $xml->addChild('done');
                                 $done->addCData($data[5]);
-                            $done->addAttribute('who', $data[0]);
-                            $done->addAttribute('A', $data[3]);
-                            $done->addAttribute('S', $data[4]);
-                            $done->addAttribute('Zeit', $data[2]);
+                                $done->addAttribute('who', $data[0]);
+                                $done->addAttribute('A', $data[3]);
+                                $done->addAttribute('S', $data[4]);
+                                $done->addAttribute('Zeit', $data[2]);
+                            }
                         }
+                        $row++;
                     }
-                    $row++;
+                    fclose($handle);
                 }
-                fclose($handle);
-            }
 
-            if ($valid) {
-                $xml->asXML( $filename);
+                if ($valid) {
+                    $xml->asXML($filename);
 
-                libxml_use_internal_errors(true);
+                    libxml_use_internal_errors(true);
 
-                $dom = new DOMDocument();
+                    $dom = new DOMDocument();
 
-                $dom->loadXML(file_get_contents( $filename));
+                    $dom->loadXML(file_get_contents($filename));
 
-                if (!$dom->schemaValidate('Aufwand.xsd')) {
-                    $errors = libxml_get_errors();
-                    var_dump($errors);
-                    $valid=false;
-                } else {
-                    echo 'Alles in Ordnung!';
+                    if (!$dom->schemaValidate('Aufwand.xsd')) {
+                        $errors = libxml_get_errors();
+                        var_dump($errors);
+                        $valid = false;
+                    } else {
+                        echo 'Alles in Ordnung!';
+                    }
                 }
             }
         }
-
+    } else {
+        $valid = false;
     }
 
     ?>
